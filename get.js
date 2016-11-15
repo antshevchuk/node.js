@@ -1,12 +1,16 @@
 var http = require('http');
 var url = require('url');
+var express = require('express');
+var app = express();
+var cors = require('cors');
+app.use(cors());
 function sum (a,b){
       var s = Number(a)+Number(b);
 	  return String(s);
   }
 
 
-var server = new http.Server(function (req, res) {
+app.get('/task2a/', function (req, res) {
   var urlParsed = url.parse(req.url, true);
   if (urlParsed.query.a&&urlParsed.query.b){
 	  res.end(sum(urlParsed.query.a, urlParsed.query.b));}
@@ -25,5 +29,5 @@ var server = new http.Server(function (req, res) {
   }
   
 });
-server.listen(3000, '127.0.0.1');
+app.listen(3000, '127.0.0.1');
 
