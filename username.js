@@ -1,8 +1,14 @@
 var http = require('http');
 var url = require('url');
+var express = require('express');
+var app = express();
+var cors = require('cors');
+var fs = require("fs");
+app.use(cors());
 
 
-var server = new http.Server(function (req, res) {
+//var server = new http.Server(function (req, res) 
+app.get('/task2C/',function(req,res){
   var urlParsed = url.parse(req.url, true);
   //console.log(urlParsed);
   if (urlParsed.query.username){
@@ -12,14 +18,17 @@ var server = new http.Server(function (req, res) {
 		  //decodeURI(fio);
 		  if (str[str.length-1].match(/\w+\W/)!=null){
 			  name = str[str.length-1].match(/\w+\W/);
-			  res.end('@'+name[0].replace(/\W/,''));}
-		  else res.end('@'+str[str.length-1]);
+			  res.send('@'+name[0].replace(/\W/gi,''));}
+		  else res.send('@'+str[str.length-1]);
 		  }
-	   else {res.end('@'+urlParsed.query.username);}}
+	   /*else if (urlParsed.query.username.match(/\@/)!=null){
+		   res.send(urlParsed.query.username);
+	   }*/
+	   else {res.send('@'+urlParsed.query.username.replace(/\W/gi,''));}}
   else {
   //res.statusCode = 404;
   res.end('Invalid username');
   }
   
 });
-server.listen(3000, '127.0.0.1');
+app.listen(3000, '127.0.0.1');
